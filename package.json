@@ -1,0 +1,32 @@
+{
+  "name": "bookstore-manager-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "dev": "nodemon --watch src --exec ts-node src/main.ts",
+    "start:dev": "tsc && tsx --watch src/main.ts",
+    "start": "tsc && tsx src/main.ts",
+    "dev:ts": "tsx --watch src/main.ts",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/node": "^26.1.0",
+    "dotenv": "^17.4.2",
+    "pg": "^8.22.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.63.0",
+    "@typescript-eslint/parser": "^8.63.0",
+    "eslint": "^9.39.4",
+    "nodemon": "^3.1.14"
+  }
+}

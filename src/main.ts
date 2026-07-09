@@ -1,4 +1,16 @@
 import readline from "readline";
+import pool from "./database";
+
+async function testDB() {
+  try {
+    const res = await pool.query("SELECT NOW()");
+    console.log("📅 Conexão bem-sucedida:", res.rows[0]);
+  } catch (err) {
+    console.error("❌ Erro ao conectar no banco:", err);
+  }
+}
+
+testDB();
 
 const rl = readline.createInterface({
   input: process.stdin,

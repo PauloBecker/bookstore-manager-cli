@@ -5,9 +5,9 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "dev": "nodemon --watch src --exec ts-node src/main.ts",
+    "dev": "dotenv -e .env nodemon --watch src --exec ts-node src/main.ts",
     "start:dev": "tsc && tsx --watch src/main.ts",
-    "start": "tsc && tsx src/main.ts",
+    "start": "dotenv -e .env tsx src/main.ts",
     "dev:ts": "tsx --watch src/main.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"
@@ -30,6 +30,7 @@
     "@types/readline-sync": "^1.4.8",
     "@typescript-eslint/eslint-plugin": "^8.63.0",
     "@typescript-eslint/parser": "^8.63.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9.39.4",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",

@@ -42,5 +42,4 @@ function mainMenu(): void {
   });
 }
 
-
 mainMenu();

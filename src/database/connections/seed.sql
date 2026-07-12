@@ -1,4 +1,5 @@
 
+
 INSERT INTO autores (nome, nacionalidade, data_nascimento)
 VALUES 
   ('Machado de Assis', 'Brasileiro', '1839-06-21'),

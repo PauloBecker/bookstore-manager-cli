@@ -1,3 +1,5 @@
+-- Active: 1783597962485@@127.0.0.1@5432@bookstore
+
 
 CREATE TABLE autores (
     id SERIAL PRIMARY KEY,
@@ -5,6 +7,7 @@ CREATE TABLE autores (
     nacionalidade VARCHAR(50),
     data_nascimento DATE
 );
+
 
 CREATE TABLE livros (
     id SERIAL PRIMARY KEY,
@@ -23,6 +26,7 @@ CREATE TABLE clientes (
     telefone VARCHAR(20)
 );
 
+
 CREATE TABLE emprestimos (
     id SERIAL PRIMARY KEY,
     livro_id INT NOT NULL,
@@ -35,7 +39,12 @@ CREATE TABLE emprestimos (
 );
 
 SELECT * FROM autores;
+
+
 SELECT * FROM livros;
+
+
 SELECT * FROM clientes;
+
 
 SELECT * FROM emprestimos;

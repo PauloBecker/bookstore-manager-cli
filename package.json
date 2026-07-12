@@ -19,16 +19,21 @@
   "dependencies": {
     "@types/node": "^26.1.0",
     "dotenv": "^17.4.2",
+    "inquirer": "^14.0.2",
     "pg": "^8.22.0",
+    "readline-sync": "^1.4.10",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@types/pg": "^8.20.0",
+    "@types/readline-sync": "^1.4.8",
     "@typescript-eslint/eslint-plugin": "^8.63.0",
     "@typescript-eslint/parser": "^8.63.0",
     "dotenv-cli": "^11.0.0",
     "eslint": "^9.39.4",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
   }
 }

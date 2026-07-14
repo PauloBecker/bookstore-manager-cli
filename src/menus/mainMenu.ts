@@ -1,5 +1,8 @@
 import * as readline from "readline";
 import { livrosMenu } from "./livrosMenu";
+import { autoresMenu } from "./autoresMenu";
+import { clientesMenu } from "./clientesMenu";
+import { emprestimosMenu } from "./emprestimosMenu";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -18,7 +21,7 @@ export function mainMenu(): void {
     switch (option) {
       case "1":
         console.log(" Você escolheu Autores");
-        mainMenu();
+        await autoresMenu(rl);
         break;
 
       case "2":
@@ -28,12 +31,12 @@ export function mainMenu(): void {
 
       case "3":
         console.log(" Você escolheu Clientes");
-        mainMenu();
+        await clientesMenu(rl);
         break;
 
       case "4":
         console.log(" Você escolheu Empréstimos");
-        mainMenu();
+        await emprestimosMenu(rl);
         break;
 
       case "0":

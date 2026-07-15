@@ -1,10 +1,10 @@
 import pool from "../database/connections/database";
 
 export class ClienteRepository {
-  async create(nome: string, nacionalidade: string, dataNascimento: Date) {
+  async create(nome: string, email: string, telefone: string, dataNascimento: Date) {
     const result = await pool.query(
-      "INSERT INTO clientes (nome, nacionalidade, data_nascimento) VALUES ($1, $2, $3) RETURNING *",
-      [nome, nacionalidade, dataNascimento]
+      "INSERT INTO clientes (nome, email, telefone, data_nascimento) VALUES ($1, $2, $3, $4) RETURNING *",
+      [nome, email, telefone, dataNascimento]
     );
     return result.rows[0];
   }
@@ -14,10 +14,10 @@ export class ClienteRepository {
     return result.rows;
   }
 
-  async update(id: number, novoNome: string, novaNacionalidade: string, novaDataNascimento: Date) {
+  async update(id: number, novoNome: string, novoEmail: string, novoTelefone: string, novaDataNascimento: Date) {
     const result = await pool.query(
-      "UPDATE clientes SET nome = $1, nacionalidade = $2, data_nascimento = $3 WHERE id = $4 RETURNING *",
-      [novoNome, novaNacionalidade, novaDataNascimento, id]
+      "UPDATE clientes SET nome = $1, email = $2, telefone = $3, data_nascimento = $4 WHERE id = $5 RETURNING *",
+      [novoNome, novoEmail, novoTelefone, novaDataNascimento, id]
     );
     return result.rows[0];
   }

@@ -26,3 +26,5 @@ VALUES
   (1, 1, CURRENT_DATE),
   (2, 2, CURRENT_DATE),
   (3, 3, CURRENT_DATE);
+
+ALTER TABLE clientes ADD COLUMN data_nascimento DATE;

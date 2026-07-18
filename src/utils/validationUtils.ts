@@ -1,6 +1,6 @@
 
-export function isEmpty(value: string | null | undefined): boolean {
-  return !value || value.trim().length === 0;
+export function isEmpty(value: string | null | undefined | Date): boolean {
+  return !value || (typeof value === "string" && value.trim().length === 0);
 }
 
 export function validarEmail(email: string): boolean {

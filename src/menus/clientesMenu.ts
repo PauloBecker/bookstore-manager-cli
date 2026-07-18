@@ -16,9 +16,24 @@ export async function clientesMenu(rl: readline.Interface): Promise<void> {
     switch (option) {
       case "1":
         rl.question("Nome do cliente: ", async (nome) => {
-          await controller.cadastrarCliente(nome);
-          console.log(" Cliente cadastrado com sucesso!");
-          clientesMenu(rl);
+          rl.question("Email: ", async (email) => {
+            rl.question("Telefone: ", async (telefone) => {
+              rl.question(
+                "Data de nascimento (YYYY-MM-DD): ",
+                async (dataNascimentoStr) => {
+                  const dataNascimento = new Date(dataNascimentoStr);
+                  await controller.cadastrarCliente(
+                    nome,
+                    email,
+                    telefone,
+                    dataNascimento,
+                  );
+                  console.log(" Cliente cadastrado com sucesso!");
+                  clientesMenu(rl);
+                },
+              );
+            });
+          });
         });
         break;
 
@@ -31,9 +46,16 @@ export async function clientesMenu(rl: readline.Interface): Promise<void> {
       case "3":
         rl.question("ID do cliente: ", async (idStr) => {
           rl.question("Novo nome: ", async (novoNome) => {
-            await controller.atualizarCliente(Number(idStr), novoNome);
-            console.log(" Cliente atualizado com sucesso!");
-            clientesMenu(rl);
+            rl.question("Novo email: ", async (novoEmail) => {
+              rl.question("Novo telefone: ", async (novoTelefone) => {
+                rl.question("Nova data de nascimento (YYYY-MM-DD): ", async (novaDataNascimentoStr) => {
+                  const novaDataNascimento = new Date(novaDataNascimentoStr);
+                  await controller.atualizarCliente(Number(idStr), novoNome, novoEmail, novoTelefone, novaDataNascimento);
+                  console.log(" Cliente atualizado com sucesso!");
+                  clientesMenu(rl);
+                });
+              });
+            });
           });
         });
         break;

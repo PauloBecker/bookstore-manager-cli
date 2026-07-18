@@ -21,9 +21,10 @@ CREATE TABLE livros (
 
 CREATE TABLE clientes (
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    telefone VARCHAR(20)
+    nome VARCHAR(150) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    telefone VARCHAR(20),
+    data_nascimento DATE
 );
 
 

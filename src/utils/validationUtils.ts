@@ -1,5 +1,5 @@
 
-export function isEmpty(value: string | null | undefined | Date): boolean {
+export function isEmpty(value: string | number | undefined | Date): boolean {
   return !value || (typeof value === "string" && value.trim().length === 0);
 }
 

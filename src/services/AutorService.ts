@@ -22,6 +22,11 @@ export class AutorService {
     return this.autorRepo.findAll();
   }
 
+  async buscarAutorPorId(id: number): Promise<Autor | null> {
+    return this.autorRepo.findById(id);
+  }
+
+
   async atualizarAutor(autor: Autor): Promise<void> {
     this.validarAutor(autor);
     await this.autorRepo.update(autor);
@@ -34,5 +39,5 @@ export class AutorService {
     }
     await this.autorRepo.delete(id);
   }
-  
+
 }

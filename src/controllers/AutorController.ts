@@ -13,7 +13,7 @@ export class AutorController {
   async cadastrarAutor(nome: string, nacionalidade?: string): Promise<void> {
     try {
       const autor: Autor = {
-        id: 0, // gerado pelo banco
+        id: 0,
         nome,
         nacionalidade,
         criadoEm: new Date(),
@@ -27,41 +27,23 @@ export class AutorController {
     }
   }
   
-   async listarAutores(): Promise<Autor[]> {
+  async listarAutores(): Promise<Autor[]> {
+    return this.service.listarAutores();
+  }
+
+  async atualizarAutor(id: number, nome: string, nacionalidade?: string): Promise<void> {
     try {
-      const autores = await this.service.listarAutores();
-      console.table(
-        autores.map(a => ({
-          ID: a.id,
-          Nome: a.nome,
-          Nacionalidade: a.nacionalidade ?? "-",
-          Criado: a.criadoEm?.toISOString().split("T")[0],
-          Atualizado: a.atualizadoEm ? a.atualizadoEm.toISOString().split("T")[0] : "-"
-        }))
-      );
-      return autores;
+      await this.service.atualizarAutor({ id, nome, nacionalidade });
+      console.log("Autor atualizado com sucesso!");
     } catch (error) {
-      console.log(formatMensagemErro(tratarErro(error)));
-      return [];
+      console.error("Erro ao atualizar autor:", (error as Error).message);
     }
   }
 
-  async atualizarAutor(id: number, nome: string, nacionalidade?: string, atualizadoEm?: Date, criadoEm?: Date): Promise<void> {
-    try {
-      const autor: Autor = {
-        id,
-        nome,
-        nacionalidade,
-        atualizadoEm: atualizadoEm || new Date(),
-        criadoEm: criadoEm || new Date(),
-      };
-
-      await this.service.atualizarAutor(autor);
-      console.log(formatMensagemSucesso("Autor atualizado com sucesso!"));
-    } catch (error) {
-      console.log(formatMensagemErro(tratarErro(error)));
-    }
+  async buscarAutorPorId(id: number): Promise<Autor | null> {
+    return this.service.buscarAutorPorId(id);
   }
+
 
   async removerAutor(id: number): Promise<void> {
     try {

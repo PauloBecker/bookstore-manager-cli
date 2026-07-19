@@ -17,19 +17,25 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
       case "1":
         rl.question("Nome do autor: ", async (nome) => {
           rl.question("Nacionalidade: ", async (nacionalidade) => {
-            rl.question("Data de nascimento (YYYY-MM-DD): ", async (dataNascimentoStr) => {
-              const dataNascimento = new Date(dataNascimentoStr);
-              await controller.cadastrarAutor(nome, nacionalidade, dataNascimento);
-              console.log(" Autor cadastrado com sucesso!");
-              autoresMenu(rl);
-            });
+            await controller.cadastrarAutor(nome, nacionalidade);
+            console.log("✅ Autor cadastrado com sucesso!");
+            autoresMenu(rl);
           });
         });
         break;
 
       case "2":
-        console.log(" Lista de autores:");
-        console.log(await controller.listarAutores());
+        console.log("📋 Lista de autores:");
+        const autores = await controller.listarAutores();
+        console.table(
+          autores.map(a => ({
+            ID: a.id,
+            Nome: a.nome,
+            Nacionalidade: a.nacionalidade ?? "-",
+            Criado: a.criadoEm?.toISOString().split("T")[0],
+            Atualizado: a.atualizadoEm ? a.atualizadoEm.toISOString().split("T")[0] : "-"
+          }))
+        );
         autoresMenu(rl);
         break;
 
@@ -37,12 +43,9 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
         rl.question("ID do autor: ", async (idStr) => {
           rl.question("Novo nome: ", async (novoNome) => {
             rl.question("Nova nacionalidade: ", async (novaNacionalidade) => {
-              rl.question("Nova data de nascimento (YYYY-MM-DD): ", async (novaDataNascimentoStr) => {
-                const novaDataNascimento = new Date(novaDataNascimentoStr);
-                await controller.atualizarAutor(Number(idStr), novoNome, novaNacionalidade, novaDataNascimento);
-                console.log(" Autor atualizado com sucesso!");
-                autoresMenu(rl);
-              });
+              await controller.atualizarAutor(Number(idStr), novoNome, novaNacionalidade);
+              console.log("✅ Autor atualizado com sucesso!");
+              autoresMenu(rl);
             });
           });
         });
@@ -51,7 +54,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
       case "4":
         rl.question("ID do autor: ", async (idStr) => {
           await controller.removerAutor(Number(idStr));
-          console.log(" Autor removido com sucesso!");
+          console.log("✅ Autor removido com sucesso!");
           autoresMenu(rl);
         });
         break;
@@ -61,7 +64,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
         return;
 
       default:
-        console.log("Opção inválida, tente novamente.");
+        console.log("❌ Opção inválida, tente novamente.");
         autoresMenu(rl);
     }
   });

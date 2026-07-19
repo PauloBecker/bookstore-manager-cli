@@ -1,32 +1,38 @@
+import { Autor } from "../models/Autor";
 import { AutorRepository } from "../repositories/AutorRepository";
 
 export class AutorService {
-  private repo = new AutorRepository();
+  private autorRepo  = new AutorRepository();
 
-  async cadastrarAutor(nome: string, nacionalidade: string, dataNascimento: Date) {
-    if (!nome || nome.trim() === "") {
-      throw new Error("Nome do autor não pode ser vazio.");
-    }
-    return this.repo.create(nome, nacionalidade, dataNascimento);
+  private validarAutor(autor: Autor): void {
+  if (!autor.nome || autor.nome.trim().length < 3) {
+    throw new Error("Nome do autor deve ter pelo menos 3 caracteres.");
+  }
+  if (autor.nacionalidade && autor.nacionalidade.trim().length < 2) {
+    throw new Error("Nacionalidade inválida.");
+  }
+}
+
+  async cadastrarAutor(autor: Autor): Promise<void> {
+    this.validarAutor(autor);
+    await this.autorRepo.create(autor);
   }
 
-  async listarAutores() {
-    return this.repo.findAll();
+  async listarAutores(): Promise<Autor[]> {
+    return this.autorRepo.findAll();
   }
 
-  async atualizarAutor(id: number, novoNome: string, novaNacionalidade: string, novaDataNascimento: Date) {
-    const autorExiste = await this.repo.autorExiste(id);
-    if (!autorExiste) {
+  async atualizarAutor(autor: Autor): Promise<void> {
+    this.validarAutor(autor);
+    await this.autorRepo.update(autor);
+  }
+
+  async deletarAutor(id: number): Promise<void> {
+    const autor = await this.autorRepo.findById(id);
+    if (!autor) {
       throw new Error("Autor não encontrado.");
     }
-    return this.repo.update(id, novoNome, novaNacionalidade, novaDataNascimento);
+    await this.autorRepo.delete(id);
   }
-
-  async removerAutor(id: number) {
-    const autorExiste = await this.repo.autorExiste(id);
-    if (!autorExiste) {
-      throw new Error("Autor não encontrado.");
-    }
-    return this.repo.delete(id);
-  }
+  
 }

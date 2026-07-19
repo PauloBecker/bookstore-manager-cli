@@ -1,7 +1,10 @@
 export interface Emprestimo {
   id: number;
-  livroId: number;     // FK para Livro
-  clienteId: number;   // FK para Cliente
+  livroId: number;     
+  clienteId: number;   
   dataEmprestimo: Date;
-  dataDevolucao?: Date; // opcional, só preenchido quando devolvido
+  dataDevolucao?: Date; 
+  devolvido: boolean;
+  criadoEm?: Date;
+  atualizadoEm?: Date;
 }

@@ -9,6 +9,6 @@ export function validarEmail(email: string): boolean {
 }
 
 export function validarTelefone(telefone: string): boolean {
-  const regex = /^\+?\d{8,15}$/; // simples, pode ser refinado
+  const regex = /^\+?\d{8,15}$/;
   return regex.test(telefone);
 }

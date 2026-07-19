@@ -3,7 +3,7 @@ export interface Cliente {
   nome: string;
   email: string;
   telefone: string;
-  data_nascimento: Date;
-  criadoEm: Date;
+  data_nascimento?: Date;
+  criadoEm?: Date;
   atualizadoEm?: Date;
 }

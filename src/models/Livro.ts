@@ -3,7 +3,8 @@ export interface Livro {
   titulo: string;
   anoPublicacao: number;
   quantidade: number;
-  autorId: number;   // chave estrangeira para Autor
-  criadoEm: Date;
+  isbn: string;
+  autorId: number;
+  criadoEm?: Date;   
   atualizadoEm?: Date;
 }

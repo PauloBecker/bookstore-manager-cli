@@ -3,6 +3,7 @@ import { livrosMenu } from "./livrosMenu";
 import { autoresMenu } from "./autoresMenu";
 import { clientesMenu } from "./clientesMenu";
 import { emprestimosMenu } from "./emprestimosMenu";
+import { relatoriosMenu } from "./relatoriosMenu";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,6 +16,7 @@ export function mainMenu(): void {
   console.log("2 - Gerenciar Livros");
   console.log("3 - Gerenciar Clientes");
   console.log("4 - Gerenciar Empréstimos");
+  console.log("5 - Gerar Relatórios");
   console.log("0 - Sair");
 
   rl.question("Escolha uma opção: ", async (option: string) => {
@@ -37,6 +39,11 @@ export function mainMenu(): void {
       case "4":
         console.log(" Você escolheu Empréstimos");
         await emprestimosMenu(rl);
+        break;
+
+      case "5":
+        console.log(" Você escolheu Relatórios");
+        await relatoriosMenu(rl);
         break;
 
       case "0":

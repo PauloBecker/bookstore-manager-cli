@@ -4,8 +4,9 @@ import { validarId, isInvalidDate } from "../utils/validationUtils";
 import { QueryResult } from "pg";
 
 export class EmprestimoRepository {
+
   async registrarEmprestimo(emprestimo: Emprestimo): Promise<Emprestimo> {
-    
+
     if (!validarId(emprestimo.clienteId)) throw new Error("Cliente inválido");
     if (!validarId(emprestimo.livroId)) throw new Error("Livro inválido");
     if (isInvalidDate(emprestimo.dataEmprestimo)) throw new Error("Data de empréstimo inválida");
@@ -30,7 +31,7 @@ export class EmprestimoRepository {
       VALUES ($1, $2, NOW(), false, DEFAULT) RETURNING *`,
       [emprestimo.clienteId, emprestimo.livroId]
     );
-    await pool.query("UPDATE livros SET quantidade_disponivel = quantidade_disponivel - 1 WHERE id = $1", [emprestimo.livroId]);
+    await pool.query("UPDATE livros SET quantidade = quantidade - 1 WHERE id = $1", [emprestimo.livroId]);
     return this.mapRowToEmprestimo(result.rows[0]);
   }
 
@@ -45,10 +46,7 @@ export class EmprestimoRepository {
        WHERE id = $2 RETURNING *`,
       [dataDevolucao, id]
     );
-
-    
-    await pool.query("UPDATE livros SET quantidade_disponivel = quantidade_disponivel + 1 WHERE id = $1", [emprestimo.rows[0].livro_id]);
-
+    await pool.query("UPDATE livros SET quantidade = quantidade + 1 WHERE id = $1", [emprestimo.rows[0].livro_id]);
     return this.mapRowToEmprestimo(result.rows[0]);
   }
 
@@ -75,7 +73,6 @@ export class EmprestimoRepository {
     if (emprestimo.rowCount === 0) throw new Error("Empréstimo inexistente");
     await pool.query("DELETE FROM emprestimos WHERE id = $1", [id]);
   }
-
   private mapRowToEmprestimo(row: any): Emprestimo {
     return {
       id: row.id,

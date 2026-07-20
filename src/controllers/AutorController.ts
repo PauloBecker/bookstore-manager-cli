@@ -19,7 +19,6 @@ export class AutorController {
         criadoEm: new Date(),
         atualizadoEm: new Date(),
       };
-
       await this.service.cadastrarAutor(autor);
       console.log(formatMensagemSucesso("Autor cadastrado com sucesso!"));
     } catch (error) {
@@ -28,17 +27,8 @@ export class AutorController {
   }
   
    async listarAutores(): Promise<Autor[]> {
-    try {
+      try {
       const autores = await this.service.listarAutores();
-      console.table(
-        autores.map(a => ({
-          ID: a.id,
-          Nome: a.nome,
-          Nacionalidade: a.nacionalidade ?? "-",
-          Criado: a.criadoEm?.toISOString().split("T")[0],
-          Atualizado: a.atualizadoEm ? a.atualizadoEm.toISOString().split("T")[0] : "-"
-        }))
-      );
       return autores;
     } catch (error) {
       console.log(formatMensagemErro(tratarErro(error)));
@@ -55,11 +45,20 @@ export class AutorController {
         atualizadoEm: atualizadoEm || new Date(),
         criadoEm: criadoEm || new Date(),
       };
-
       await this.service.atualizarAutor(autor);
       console.log(formatMensagemSucesso("Autor atualizado com sucesso!"));
     } catch (error) {
       console.log(formatMensagemErro(tratarErro(error)));
+    }
+  }
+
+  async buscarAutorPorId(id: number): Promise<Autor | null> {
+    try {
+      const autor = await this.service.buscarAutorPorId(id);
+      return autor;
+    } catch (error) {
+      console.log(formatMensagemErro(tratarErro(error)));
+      return null;
     }
   }
 

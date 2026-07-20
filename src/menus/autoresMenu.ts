@@ -15,6 +15,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
   rl.question("Escolha uma opção: ", async (option: string) => {
     switch (option) {
       case "1":
+        console.log(" Cadastro de Autor:");
         rl.question("Nome do autor: ", async (nome) => {
           rl.question("Nacionalidade: ", async (nacionalidade) => {
             await controller.cadastrarAutor(nome, nacionalidade);
@@ -25,7 +26,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
         break;
 
       case "2":
-        console.log("📋 Lista de autores:");
+        console.log(" Lista de autores:");
         const autores = await controller.listarAutores();
         console.table(
           autores.map(a => ({
@@ -36,10 +37,13 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
             Atualizado: a.atualizadoEm ? a.atualizadoEm.toISOString().split("T")[0] : "-"
           }))
         );
-        autoresMenu(rl);
+        setTimeout(() => {
+          autoresMenu(rl);
+        }, 0);
         break;
 
       case "3":
+        console.log(" Atualização de Autor:");
         rl.question("ID do autor: ", async (idStr) => {
           rl.question("Novo nome: ", async (novoNome) => {
             rl.question("Nova nacionalidade: ", async (novaNacionalidade) => {
@@ -52,9 +56,30 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
         break;
 
       case "4":
+        console.log(" Remoção de Autor:");
         rl.question("ID do autor: ", async (idStr) => {
           await controller.removerAutor(Number(idStr));
           console.log("✅ Autor removido com sucesso!");
+          autoresMenu(rl);
+        });
+        break;
+
+        case "5":
+        console.log(" Buscar Autor por ID:");
+        rl.question("ID do autor: ", async (idStr) => {
+          const autor = await controller.buscarAutorPorId(Number(idStr));
+          if (autor) {
+            console.log("✅ Autor encontrado:");
+            console.table([{
+              ID: autor.id,
+              Nome: autor.nome,
+              Nacionalidade: autor.nacionalidade ?? "-",
+              Criado: autor.criadoEm?.toISOString().split("T")[0],
+              Atualizado: autor.atualizadoEm ? autor.atualizadoEm.toISOString().split("T")[0] : "-"
+            }]);
+          } else {
+            console.log("❌ Autor não encontrado.");
+          }
           autoresMenu(rl);
         });
         break;

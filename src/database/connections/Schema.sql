@@ -49,3 +49,7 @@ SELECT * FROM clientes;
 
 
 SELECT * FROM emprestimos;
+
+ALTER TABLE livros ADD COLUMN quantidade_disponivel INT DEFAULT 0;
+UPDATE livros SET quantidade_disponivel = quantidade;
+

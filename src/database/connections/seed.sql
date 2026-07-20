@@ -28,3 +28,25 @@ VALUES
   (3, 3, CURRENT_DATE);
 
 ALTER TABLE clientes ADD COLUMN data_nascimento DATE;
+
+ALTER TABLE autores ADD COLUMN criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE autores ADD COLUMN atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE autores DROP COLUMN data_nascimento;
+
+ALTER TABLE emprestimos
+ADD COLUMN criado_em TIMESTAMP DEFAULT NOW(),
+ADD COLUMN atualizado_em TIMESTAMP DEFAULT NOW();
+
+CREATE OR REPLACE FUNCTION atualizar_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.atualizado_em = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_atualizar_timestamp
+BEFORE UPDATE ON emprestimos
+FOR EACH ROW
+EXECUTE FUNCTION atualizar_timestamp();

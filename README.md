@@ -135,22 +135,30 @@ npm run dev
 # A aplicação segue arquitetura em camadas:
 
 ```
-BOOKSTORE-MANAGER-CLI/
+BOOKSTORE-MANAGEMENT/
+│
+├── postgres-data/           # Dados persistidos do PostgreSQL
 │
 ├── src/
-│   ├── main.ts              # Ponto de entrada
+│   ├── main.ts              # Ponto de entrada da aplicação
 │   ├── controllers/         # Controllers (CLI)
-│   ├── services/            # Regras de negócio
-│   ├── repositories/        # Acesso ao banco
-│   ├── models/              # Entidades e interfaces
-│   ├── database/            # Conexão e schema SQL
+│   ├── database/
+│   │   └── connections/     # Conexão e schema SQL
 │   ├── menus/               # Menus CLI
+│   ├── models/              # Entidades e interfaces
+│   ├── repositories/        # Acesso ao banco de dados
+│   ├── services/            # Regras de negócio
 │   └── utils/               # Funções auxiliares
 │
-├── package.json
-├── tsconfig.json
-├── README.md
-└── .gitignore
+├── .env                     # Variáveis de ambiente
+├── .gitignore               # Arquivos ignorados pelo Git
+├── .prettierrc              # Configuração de formatação de código
+├── docker-compose.yml       # Configuração do Docker
+├── eslint.config.mjs        # Configuração do ESLint
+├── package-lock.json        # Lock de dependências
+├── package.json             # Dependências e scripts
+├── README.md                # Documentação do projeto
+└── tsconfig.json            # Configuração do TypeScript
 
 ```
 ## ⚡ Funcionalidades Implementadas

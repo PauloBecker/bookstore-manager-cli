@@ -2,7 +2,7 @@ export interface Emprestimo {
   id: number;
   livroId: number;     
   clienteId: number;   
-  dataEmprestimo: Date;
+  dataEmprestimo?: Date;
   dataDevolucao?: Date; 
   devolvido: boolean;
   criadoEm?: Date;

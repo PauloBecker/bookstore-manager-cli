@@ -26,6 +26,10 @@ constructor(private livroRepository: LivroRepository) {}
     }
   }
 
+  async buscarLivroPorId(id: number): Promise<Livro | null> {
+    return this.livroRepository.findById(id);
+  }
+
   async cadastrarLivro(livro: Livro): Promise<void> {
     this.validarLivro(livro);
     await this.livroRepository.create(livro);

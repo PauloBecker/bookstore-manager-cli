@@ -12,3 +12,12 @@ export function validarTelefone(telefone: string): boolean {
   const regex = /^\+?\d{8,15}$/; // simples, pode ser refinado
   return regex.test(telefone);
 }
+
+export function validarId(id: number | null | undefined): boolean {
+  return !!id && Number.isInteger(id) && id > 0;
+}
+
+
+export function isInvalidDate(value: Date | null | undefined): boolean {
+  return !value || isNaN(value.getTime());
+}

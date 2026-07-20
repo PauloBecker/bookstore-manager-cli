@@ -10,6 +10,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
   console.log("2 - Listar Autores");
   console.log("3 - Atualizar Autor");
   console.log("4 - Remover Autor");
+  console.log("5 - Buscar Autor por ID");
   console.log("0 - Voltar");
 
   rl.question("Escolha uma opção: ", async (option: string) => {
@@ -33,7 +34,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
             ID: a.id,
             Nome: a.nome,
             Nacionalidade: a.nacionalidade ?? "-",
-            Criado: a.criadoEm?.toISOString().split("T")[0],
+            Criado: a.criadoEm ? a.criadoEm.toISOString().split("T")[0] : "-",
             Atualizado: a.atualizadoEm ? a.atualizadoEm.toISOString().split("T")[0] : "-"
           }))
         );
@@ -43,7 +44,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
         break;
 
       case "3":
-        console.log(" Atualização de Autor:");
+        console.log("📋 Atualizar autor:");
         rl.question("ID do autor: ", async (idStr) => {
           rl.question("Novo nome: ", async (novoNome) => {
             rl.question("Nova nacionalidade: ", async (novaNacionalidade) => {
@@ -53,10 +54,10 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
             });
           });
         });
-        break;
+      break;
 
       case "4":
-        console.log(" Remoção de Autor:");
+        console.log("📋 Remover autor:");
         rl.question("ID do autor: ", async (idStr) => {
           await controller.removerAutor(Number(idStr));
           console.log("✅ Autor removido com sucesso!");
@@ -64,17 +65,17 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
         });
         break;
 
-        case "5":
-        console.log(" Buscar Autor por ID:");
+      case "5":
+        console.log("📋 Buscar autor por ID:");
         rl.question("ID do autor: ", async (idStr) => {
           const autor = await controller.buscarAutorPorId(Number(idStr));
           if (autor) {
-            console.log("✅ Autor encontrado:");
+            console.log("📋 Autor encontrado:");
             console.table([{
               ID: autor.id,
               Nome: autor.nome,
               Nacionalidade: autor.nacionalidade ?? "-",
-              Criado: autor.criadoEm?.toISOString().split("T")[0],
+              Criado: autor.criadoEm ? autor.criadoEm.toISOString().split("T")[0] : "-",
               Atualizado: autor.atualizadoEm ? autor.atualizadoEm.toISOString().split("T")[0] : "-"
             }]);
           } else {
@@ -83,7 +84,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
           autoresMenu(rl);
         });
         break;
-
+  
       case "0":
         mainMenu();
         return;

@@ -33,6 +33,7 @@ ALTER TABLE autores ADD COLUMN criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE autores ADD COLUMN atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
 ALTER TABLE autores DROP COLUMN data_nascimento;
+<<<<<<< HEAD
 
 ALTER TABLE emprestimos
 ADD COLUMN criado_em TIMESTAMP DEFAULT NOW(),
@@ -50,3 +51,5 @@ CREATE TRIGGER trg_atualizar_timestamp
 BEFORE UPDATE ON emprestimos
 FOR EACH ROW
 EXECUTE FUNCTION atualizar_timestamp();
+=======
+>>>>>>> 77f2e2cb2a7106409a51439c923cc3039a846406

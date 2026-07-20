@@ -20,12 +20,13 @@ export class EmprestimoController {
   }
 
 
-  async registrarEmprestimo(clienteId: number, livroId: number, dataEmprestimo: Date): Promise<Emprestimo> {
+  async registrarEmprestimo(clienteId: number, livroId: number): Promise<Emprestimo> {
     const emprestimo: Emprestimo = {
       id: 0,
       clienteId,
       livroId,
       dataEmprestimo: new Date(),
+      dataDevolucao: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       devolvido: false
     };
     return this.service.registrarEmprestimo(emprestimo);

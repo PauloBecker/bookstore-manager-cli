@@ -6,18 +6,14 @@ import { QueryResult } from "pg";
 export class EmprestimoRepository {
 
   async registrarEmprestimo(emprestimo: Emprestimo): Promise<Emprestimo> {
-
     if (!validarId(emprestimo.clienteId)) throw new Error("Cliente inválido");
     if (!validarId(emprestimo.livroId)) throw new Error("Livro inválido");
     if (isInvalidDate(emprestimo.dataEmprestimo)) throw new Error("Data de empréstimo inválida");
-
     const cliente = await pool.query("SELECT 1 FROM clientes WHERE id = $1", [emprestimo.clienteId]);
       if (cliente.rowCount === 0) throw new Error("Cliente inexistente");
-    
     const livro = await pool.query("SELECT quantidade_disponivel FROM livros WHERE id = $1", [emprestimo.livroId]);
       if (livro.rowCount === 0) throw new Error("Livro inexistente");
       if (livro.rows[0].quantidade_disponivel <= 0) throw new Error("Livro sem disponibilidade");
-
     const emprestimoAtivo: QueryResult<any> = await pool.query(
       "SELECT 1 FROM emprestimos WHERE cliente_id = $1 AND livro_id = $2 AND devolvido = false",
         [emprestimo.clienteId, emprestimo.livroId]
@@ -25,10 +21,11 @@ export class EmprestimoRepository {
       if (emprestimoAtivo.rowCount! > 0) {
         throw new Error("Já existe empréstimo ativo para este cliente e livro");
       }
-
     const result = await pool.query(
-      `INSERT INTO emprestimos (cliente_id, livro_id, data_emprestimo, devolvido, criado_em) 
-      VALUES ($1, $2, NOW(), false, DEFAULT) RETURNING *`,
+      `INSERT INTO emprestimos 
+      (cliente_id, livro_id, data_emprestimo, data_devolucao, devolvido, criado_em, atualizado_em) 
+      VALUES ($1, $2, NOW(), NOW() + interval '7 days', false, NOW(), NOW()) 
+      RETURNING *`,
       [emprestimo.clienteId, emprestimo.livroId]
     );
     await pool.query("UPDATE livros SET quantidade = quantidade - 1 WHERE id = $1", [emprestimo.livroId]);
@@ -39,12 +36,11 @@ export class EmprestimoRepository {
     const emprestimo = await pool.query("SELECT * FROM emprestimos WHERE id = $1", [id]);
     if (emprestimo.rowCount === 0) throw new Error("Empréstimo inexistente");
     if (emprestimo.rows[0].devolvido) throw new Error("Este empréstimo já foi devolvido");
-
     const result = await pool.query(
       `UPDATE emprestimos 
-       SET data_devolucao = $1, devolvido = true, atualizado_em = NOW()
-       WHERE id = $2 RETURNING *`,
-      [dataDevolucao, id]
+       SET devolvido = true, data_devolucao = NOW(), atualizado_em = NOW() 
+       WHERE id = $1 RETURNING *`,
+      [id]
     );
     await pool.query("UPDATE livros SET quantidade = quantidade + 1 WHERE id = $1", [emprestimo.rows[0].livro_id]);
     return this.mapRowToEmprestimo(result.rows[0]);

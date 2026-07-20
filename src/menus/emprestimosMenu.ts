@@ -23,7 +23,7 @@ export async function emprestimosMenu(rl: readline.Interface): Promise<void> {
           const clienteExiste = await controller.buscarClientePorId(clienteId);
           if (!clienteExiste) {
             console.log("❌ Cliente inexistente. Informe um ID válido.");
-            return emprestimosMenu(rl); // volta ao menu sem seguir
+            return emprestimosMenu(rl);
           }
           rl.question("ID do livro: ", async (livroStr) => {
             const livroId = Number(livroStr);
@@ -33,30 +33,51 @@ export async function emprestimosMenu(rl: readline.Interface): Promise<void> {
               return emprestimosMenu(rl);
             }
               try {
-                const emprestimo = await controller.registrarEmprestimo(clienteId, livroId, new Date());
-                console.log("✅ Empréstimo registrado:", emprestimo);
+                const emprestimo = await controller.registrarEmprestimo(
+                  Number(clienteStr),
+                  Number(livroStr)
+                );
+                console.log("✅ Empréstimo registrado:");
+                console.table([{
+                  ID: emprestimo.id,
+                  ClienteID: emprestimo.clienteId,
+                  LivroID: emprestimo.livroId,
+                  DataEmprestimo: emprestimo.dataEmprestimo ? new Date(emprestimo.dataEmprestimo).toISOString().split("T")[0] : "-",
+                  DataDevolucao: emprestimo.dataDevolucao ? new Date(emprestimo.dataDevolucao).toISOString().split("T")[0] : "-",
+                  Devolvido: emprestimo.devolvido ? "Sim" : "Não",
+                  Criado: emprestimo.criadoEm ? new Date(emprestimo.criadoEm).toISOString().split("T")[0] : "-",
+                  Atualizado: emprestimo.atualizadoEm ? new Date(emprestimo.atualizadoEm).toISOString().split("T")[0] : "-"
+                }]);
               } catch (error: any) {
-                console.log("❌ Erro:", error.message);
+                console.log("❌ Erro ao registrar empréstimo:", error.message);
               }
               emprestimosMenu(rl);
+            });
           });
-        });
-        break;
+          break;
 
 
 
       case "2":
         console.log("📋 Registro de Devolução:");
         rl.question("ID do empréstimo: ", async (idStr) => {
-          rl.question("Data da devolução (YYYY-MM-DD): ", async (dataStr) => {
-            try {
-              const devolucao = await controller.registrarDevolucao(Number(idStr), new Date(dataStr));
-              console.log("✅ Devolução registrada:", devolucao);
-            } catch (error: any) {
-              console.log("❌ Erro:", error.message);
-            }
-            emprestimosMenu(rl);
-          });
+          try {
+            const devolucao = await controller.registrarDevolucao(Number(idStr), new Date());
+            console.log("✅ Devolução registrada:");
+            console.table([{
+              ID: devolucao.id,
+              ClienteID: devolucao.clienteId,
+              LivroID: devolucao.livroId,
+              DataEmprestimo: devolucao.dataEmprestimo ? new Date(devolucao.dataEmprestimo).toISOString().split("T")[0] : "-",
+              DataDevolucao: devolucao.dataDevolucao ? new Date(devolucao.dataDevolucao).toISOString().split("T")[0] : "-",
+              Devolvido: devolucao.devolvido ? "Sim" : "Não",
+              Criado: devolucao.criadoEm ? new Date(devolucao.criadoEm).toISOString().split("T")[0] : "-",
+              Atualizado: devolucao.atualizadoEm ? new Date(devolucao.atualizadoEm).toISOString().split("T")[0] : "-"
+            }]);
+          } catch (error: any) {
+            console.log("❌ Erro ao registrar devolução:", error.message);
+          }
+          emprestimosMenu(rl);
         });
         break;
 

@@ -5,7 +5,8 @@ CREATE TABLE autores (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     nacionalidade VARCHAR(50),
-    data_nascimento DATE
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -15,6 +16,7 @@ CREATE TABLE livros (
     ano_publicacao INT,
     quantidade INT DEFAULT 1,
     autor_id INT NOT NULL,
+    isbn VARCHAR(20) UNIQUE,
     FOREIGN KEY (autor_id) REFERENCES autores(id) ON DELETE CASCADE
 );
 

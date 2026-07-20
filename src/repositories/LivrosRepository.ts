@@ -5,15 +5,15 @@ export class LivroRepository {
   
   async create(livro: Livro): Promise<void> {
     await pool.query(
-      "INSERT INTO livros (titulo, ano_publicacao, quantidade, autor_id) VALUES ($1, $2, $3, $4)",
-      [livro.titulo, livro.anoPublicacao, livro.quantidade, livro.autorId]
+      "INSERT INTO livros (titulo, ano_publicacao, quantidade, autor_id, isbn) VALUES ($1, $2, $3, $4, $5)",
+      [livro.titulo, livro.anoPublicacao, livro.quantidade, livro.autorId, livro.isbn]
     );
   }
 
   async update(livro: Livro): Promise<void> {
     await pool.query(
-      "UPDATE livros SET titulo = $1, ano_publicacao = $2, quantidade = $3, autor_id = $4, atualizado_em = NOW() WHERE id = $5",
-      [livro.titulo, livro.anoPublicacao, livro.quantidade, livro.autorId, livro.id]
+      "UPDATE livros SET titulo = $1, ano_publicacao = $2, quantidade = $3, autor_id = $4, isbn = $5, atualizado_em = NOW() WHERE id = $6",
+      [livro.titulo, livro.anoPublicacao, livro.quantidade, livro.autorId, livro.isbn, livro.id]
     );
   }
   

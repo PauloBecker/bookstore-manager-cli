@@ -16,6 +16,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
   rl.question("Escolha uma opção: ", async (option: string) => {
     switch (option) {
       case "1":
+        console.log(" Cadastro de Autor:");
         rl.question("Nome do autor: ", async (nome) => {
           rl.question("Nacionalidade: ", async (nacionalidade) => {
             await controller.cadastrarAutor(nome, nacionalidade);
@@ -26,7 +27,7 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
         break;
 
       case "2":
-        console.log("📋 Lista de autores:");
+        console.log(" Lista de autores:");
         const autores = await controller.listarAutores();
         console.table(
           autores.map(a => ({
@@ -37,7 +38,9 @@ export async function autoresMenu(rl: readline.Interface): Promise<void> {
             Atualizado: a.atualizadoEm ? a.atualizadoEm.toISOString().split("T")[0] : "-"
           }))
         );
-        autoresMenu(rl);
+        setTimeout(() => {
+          autoresMenu(rl);
+        }, 0);
         break;
 
       case "3":

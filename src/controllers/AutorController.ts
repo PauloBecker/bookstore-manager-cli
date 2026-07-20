@@ -19,7 +19,6 @@ export class AutorController {
         criadoEm: new Date(),
         atualizadoEm: new Date(),
       };
-
       await this.service.cadastrarAutor(autor);
       console.log(formatMensagemSucesso("Autor cadastrado com sucesso!"));
     } catch (error) {

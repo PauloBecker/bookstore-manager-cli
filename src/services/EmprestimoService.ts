@@ -1,28 +1,26 @@
+import { Emprestimo } from "../models/Emprestimo";
 import { EmprestimoRepository } from "../repositories/EmprestimoRepository";
-import { LivroRepository } from "../repositories/LivrosRepository";
-import { ClienteRepository } from "../repositories/ClienteRepository";
 
 export class EmprestimoService {
   private repo = new EmprestimoRepository();
-  private livroRepo = new LivroRepository();
-  private clienteRepo = new ClienteRepository();
 
-  async realizarEmprestimo(livroId: number, clienteId: number) {
-    const livro = await (this.livroRepo as any).findById(livroId);
-    if (!livro) throw new Error("Livro não encontrado.");
-    if (livro.quantidade <= 0) throw new Error("Livro indisponível.");
-
-    const clienteExiste = await this.clienteRepo.clienteExiste(clienteId);
-    if (!clienteExiste) throw new Error("Cliente não encontrado.");
-
-    return this.repo.create(livroId, clienteId);
+  async registrarEmprestimo(emprestimo: Emprestimo): Promise<Emprestimo> {
+    return this.repo.registrarEmprestimo(emprestimo);
   }
 
-  async registrarDevolucao(id: number) {
-    return this.repo.devolucao(id);
+  async registrarDevolucao(id: number, dataDevolucao: Date): Promise<Emprestimo> {
+    return this.repo.registrarDevolucao(id, dataDevolucao);
   }
 
-  async consultarEmprestimos() {
+  async listarEmprestimos(): Promise<any[]> {
     return this.repo.findAll();
+  }
+
+  async buscarEmprestimoPorId(id: number): Promise<Emprestimo | null> {
+    return this.repo.findById(id);
+  }
+
+  async removerEmprestimo(id: number): Promise<void> {
+    return this.repo.delete(id);
   }
 }

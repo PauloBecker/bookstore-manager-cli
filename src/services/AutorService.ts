@@ -32,6 +32,10 @@ export class AutorService {
     await this.autorRepo.update(autor);
   }
 
+  async buscarAutorPorId(id: number): Promise<Autor | null> {
+    return this.autorRepo.findById(id);
+  }
+
   async deletarAutor(id: number): Promise<void> {
     const autor = await this.autorRepo.findById(id);
     if (!autor) {
